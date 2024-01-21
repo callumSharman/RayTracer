@@ -4,6 +4,23 @@
 #include "vec3.h"
 
 int main() {
+    /*
+    vec3_t v;
+    vec3_init(&v, 1,2,3);
+
+    vec3_print(&v);
+    printf("magnitude of v is %f\n", vec3_mag(&v));
+
+
+    vec3_t v3;
+    vec3_add(&v,&v,&v3);
+    printf("v+v = ");
+    vec3_print(&v3);
+    printf("\n");
+    */
+
+
+    
     // image
     FILE *img = fopen("image.ppm", "w");
     int img_width = 256;
@@ -11,21 +28,15 @@ int main() {
 
     // render
     fprintf(img, "P3\n%d %d\n255\n", img_width, img_height);
+    for(int i = 0; i < img_height; i ++) {
+        for (int j = 0; j < img_width; ++j) {
 
-    for (int i = 0; i < img_height; i++) {
-        for (int j = 0; j < img_width; j++) {
-            double r = 0.5;
-            double g = 0.2;
-            double b = 0.1;
+            colour_t pixel_colour;
+            vec3_init(&pixel_colour, (double)i/(img_width-1), (double)j/(img_height-1), 0);
+            write_colour(img, pixel_colour);
 
-            int ir = (int)(255.999 * r);
-            int ig = (int)(255.999 * g);
-            int ib = (int)(255.999 * b);
-
-            fprintf(img, "%d %d %d\n", ir, ig, ib);
         }
 
-        // prints the progress bar to the console
         printProgress(i, img_height);
     }
 

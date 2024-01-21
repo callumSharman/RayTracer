@@ -1,26 +1,24 @@
-CLFAGS = -Wall -g
+CFLAGS = -Wall -g -lm
 CC= gcc
 
 
-imageGenerator: main.o ppmCreator.o utils.o vec3.o
-	gcc $(CFLAGS) -o imageGenerator main.o ppmCreator.o utils.o vec3.o
+imgGenerator: main.o utils.o vec3.o
+	$(CC) -o imgGenerator main.o utils.o vec3.o $(CFLAGS)
 
 main.o: main.c
-	gcc $(CFLAGS) -c main.c -o main.o
-
-ppmCreator.o: ppmCreator.c
-	gcc $(CFLAGS) -c ppmCreator.c -o ppmCreator.o
+	$(CC) -c main.c -o main.o $(CFLAGS)
 
 utils.o: utils.c
-	gcc $(CFLAGS) -c utils.c -o utils.o
+	$(CC) -c utils.c -o utils.o $(CFLAGS)
 
 vec3.o: vec3.c
-	gcc $(CFLAGS) -c vec3.c -o vec3.o
+	$(CC) -c vec3.c -o vec3.o $(CFLAGS)
 
 run:
-	make imageGenerator
+	make imgGenerator
+	./imgGenerator
 
 clean:
 	rm -f *.o 
+	rm imgGenerator
 	rm image.ppm
-	rm imageGenerator
