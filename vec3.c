@@ -4,7 +4,7 @@
 #include "vec3.h"
 
 
-/* initialise vec3 instance. Takes x, y, z and a pointer to your vector */
+/* initialise vec3 instance. Takes x, y, z and a pointer to vector */
 void vec3_init(vec3_t* v, double x, double y, double z){
     v->x = x;
     v->y = y;
@@ -24,6 +24,20 @@ void vec3_add(vec3_t* v1, vec3_t* v2, vec3_t* result){
     result->x = v1->x + v2->x;
     result->y = v1->y + v2->y;
     result->z = v1->z + v2->z;
+}
+
+/* multiples a vec3 by the given magnitude */
+void vec3_multiply(vec3_t* v, double x, vec3_t* result){
+    result->x = (v->x)*x;
+    result->y = (v->y)*x;
+    result->z = (v->z)*x;
+}
+
+/* copies v1 into v2 */
+void vec3_copy_into(vec3_t* v1, vec3_t* v2){
+    v2->x = v1->x;
+    v2->y = v1->y;
+    v2->z = v1->z;
 }
 
 /* prints the vector to console in easily readable format */
