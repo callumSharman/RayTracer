@@ -20,9 +20,20 @@ point3_t ray_point_at(ray_t r, double t){
 }
 
 /* returns the colour of a ray */
-void ray_colour(ray_t ray){
+colour_t ray_colour(ray_t ray){
+    // find the unit vector of the direction
+    vec3_t unit_dir = vec3_unit_vec(ray.dir);
+
+    // set start and end colours of the gradient
+    colour_t start_col = vec3_init(1.0, 1.0, 1.0);
+    colour_t end_col = vec3_init(0.5, 0.7, 1.0);
+    
+    // move based on vertically, based on y value of position. Set between 0 and 1
+    double a = 0.5 * (unit_dir.y + 1.0);
+
+    colour_t blended_value = vec3_add(vec3_multi(start_col, (1-a)), vec3_multi(end_col, a));
+
 
     // only returns black atm as a placeholder
-    return vec3_init(0,0,0);
-
+    return blended_value;
 }

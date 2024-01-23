@@ -4,10 +4,20 @@
 #include "vec3.h"
 #include "ray.h"
 
-const double ASPECT_RATIO = 16.0 / 9.0;
-const int IMG_WIDTH = 400;
-const int VIEWPORT_HEIGHT = 2.0;
-const double FOCAL_LENGTH = 1.0;
+#define ASPECT_RATIO 16.0 / 9.0
+#define IMG_WIDTH 400
+#define VIEWPORT_HEIGHT 2.0
+#define FOCAL_LENGTH 1.0
+
+/*
+TO-DO:
+	i think there may be something wrong with the values, 
+	the gradient isnt as strong as it should be.
+	possible causes: 
+		- incorrect unit vector detection
+		- issue with view port and camera calculation
+
+*/
 
 
 int main() {
@@ -17,54 +27,64 @@ int main() {
     2. Determine which objects the ray intersects, and
     3. Compute a color for the closest intersection point.
     */
-    // // set the image height and viewport width, as they can vary with change to the constants
-    // int img_height = (IMG_WIDTH / ASPECT_RATIO);
-    // img_height = (img_height < 1) ? 1 : img_height; // must be at least 1 pixel tall
-    // double viewport_width = VIEWPORT_HEIGHT * (double)((IMG_WIDTH)/img_height);
+    // set the image height and viewport width, as they can vary with change to the constants
+    int img_height = (IMG_WIDTH / (double) (ASPECT_RATIO));
+    img_height = (img_height < 1) ? 1 : img_height; // must be at least 1 pixel tall
+    double viewport_width = VIEWPORT_HEIGHT * (double)((IMG_WIDTH)/img_height);
 
-    // point3_t camera_center; vec3_init(&camera_center, 0,0,0);
+    point3_t camera_center = vec3_init(0,0,0);
 
-    // // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    // vec3_t viewport_u; vec3_init(&viewport_u, viewport_width, 0, 0);
-    // vec3_t viewport_v; vec3_init(&viewport_v, 0, -VIEWPORT_HEIGHT, 0);
+    // Calculate the vectors across the horizontal and down the vertical viewport edges.
+    vec3_t viewport_u = vec3_init(viewport_width, 0, 0);
+    vec3_t viewport_v = vec3_init(0, -VIEWPORT_HEIGHT, 0);
 
-    // // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-    // vec3_t pixel_delta_u; vec3_divide(&pixel_delta_u, IMG_WIDTH, &pixel_delta_u);
-    // vec3_t pixel_delta_v; vec3_divide(&pixel_delta_v, img_height, &pixel_delta_v);
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    vec3_t pixel_delta_u = vec3_divide(viewport_u, IMG_WIDTH);
+    vec3_t pixel_delta_v = vec3_divide(viewport_v, img_height);
 
-    // // Calculate the location of the upper left pixel.
-    // /* viewport_upper_left = camera_center 
-    //                             - vec3(0, 0, focal_length)  temp_vec1
-    //                             - viewport_u/2              temp_vec2
-    //                             - viewport_v/2              temp_vec3 */
-    // vec3_t viewport_upper_left; 
-    // vec3_t temp_vec1; vec3_init(&temp_vec1, 0,0,-1 * FOCAL_LENGTH);
-    // vec3_t temp_vec2; vec3_divide(&viewport_u, 2, &temp_vec2); vec3_multiply(&temp_vec2, -1, &temp_vec2);
-    // vec3_t temp_vec3; vec3_divide(&viewport_v, 2, &temp_vec3); vec3_multiply(&temp_vec3, -1, &temp_vec3);
-    // vec3_add(&camera_center, &temp_vec1, &viewport_upper_left);
-    // vec3_add(&viewport_upper_left, &temp_vec2, &viewport_upper_left);
-    // vec3_add(&viewport_upper_left, &temp_vec3, &viewport_upper_left); // yikes this is such a bad way to do this
-    // /* pixel00_loc = (viewport_upper_left + 0.5) 
-    //                         * (pixel_delta_u + pixel_delta_v) */
+    // Calculate the location of the upper left pixel.
+    /* viewport_upper_left = camera_center 
+                            - vec3(0, 0, focal_length)
+                            - viewport_u/2
+                            - viewport_v/2 */
+    vec3_t viewport_upper_left = vec3_add(vec3_add(vec3_add(camera_center, 
+										vec3_init(0,0,-FOCAL_LENGTH)), 
+										vec3_divide(viewport_u, 2)),
+										vec3_divide(viewport_v, 2));
 
-    // // image
-    // FILE *img = fopen("image.ppm", "w");
+    /* pixel00_loc = viewport_upper_left + 
+							(0.5 * (pixel_delta_u + pixel_delta_v)) */
+	// im fairly certain this is the center of the top left pixel
+	vec3_t pixel00_loc = vec3_add(viewport_upper_left, 
+								vec3_multi(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
+	
 
-    // // render
-    // fprintf(img, "P3\n%d %d\n255\n", IMG_WIDTH, img_height);
-    // for(int i = 0; i < img_height; i ++) {
-    //     for (int j = 0; j < IMG_WIDTH; ++j) {
+    // image
+    FILE *img = fopen("image.ppm", "w");
 
-    //         colour_t pixel_colour;
-    //         vec3_init(&pixel_colour, (double)i/(IMG_WIDTH-1), (double)j/(img_height-1), 0);
-    //         write_colour(img, pixel_colour);
+    // render
+    fprintf(img, "P3\n%d %d\n255\n", IMG_WIDTH, img_height);
 
-    //     }
+    for(int i = 0; i < img_height; i ++) {
+        for(int j = 0; j < IMG_WIDTH; ++j) {
 
-    //     printProgress(i, img_height);
-    // }
+			// point = p + (delta_u*j) + (delta_v*i)
+			point3_t pixel_center = vec3_add(pixel00_loc, 
+									vec3_add(vec3_multi(pixel_delta_u, j), 
+											 vec3_multi(pixel_delta_v, i)));
+			vec3_t ray_direction = vec3_sub(pixel_center, camera_center);
+
+			ray_t ray = ray_init(camera_center, ray_direction);
+			colour_t pixel_colour = ray_colour(ray);
+
+            write_colour(img, pixel_colour);
+
+        }
+
+        printProgress(i, img_height);
+    }
 
 
-    // fclose(img);
+    fclose(img);
     return 0;
 }

@@ -20,14 +20,23 @@ vec3_t vec3_init(double x, double y, double z);
 /* returns the magnitude of given vec3 */
 double vec3_mag(vec3_t v);
 
+/* adds a vector and magnitude */ 
+vec3_t vec3_add_mag(vec3_t v, double a);
+
 /* adds 2 vectors */ 
 vec3_t vec3_add(vec3_t v1, vec3_t v2);
+
+/* subtracts v2 from v1 */ 
+vec3_t vec3_sub(vec3_t v1, vec3_t v2);
 
 /* multiples a vec3 by the given magnitude */
 vec3_t vec3_multi(vec3_t v, double a);
 
 /* divides a vec3 by the given magnitude */
 vec3_t vec3_divide(vec3_t v, double a);
+
+/* calculates and returns the unit vector of the given vector */
+vec3_t vec3_unit_vec(vec3_t v);
 
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v);
