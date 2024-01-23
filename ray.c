@@ -4,20 +4,25 @@
 #include "ray.h"
 
 
-/* initialise ray instance. Takes origin, direction and pointer to ray */
-void ray_init(ray_t* ray, point3_t* origin, vec3_t* direction){
-    vec3_copy_into(origin, &(ray->orig)); // sets the origin
-    vec3_copy_into(direction, &(ray->dir)); // sets the direction
+/* initialise ray instance. Takes origin and direction*/
+ray_t ray_init(point3_t origin, vec3_t direction){
+    ray_t r;
+    r.orig = origin; r.dir = direction;
+    return r;
 }
 
 
-/* finds the point on the given ray at t, puts it into the given point */
-void ray_point_at(ray_t* ray, double t, point3_t* result){
+/* finds the point on the given ray at t */
+point3_t ray_point_at(ray_t r, double t){
     // P(t) = A + tb (A is orign, b is direction)
+    return(vec3_add(r.orig, vec3_multi(r.dir, t)));
+        
+}
 
-    point3_t res; 
-    vec3_t tb;
-    vec3_multiply(&(ray->dir), t, &tb);
-    vec3_add(&(ray->orig), &tb, &res);
-    vec3_copy_into(&res, result); // sets the result, sort of like returning
+/* returns the colour of a ray */
+void ray_colour(ray_t ray){
+
+    // only returns black atm as a placeholder
+    return vec3_init(0,0,0);
+
 }
