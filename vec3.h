@@ -26,6 +26,9 @@ vec3_t vec3_add_mag(vec3_t v, double a);
 /* adds 2 vectors */ 
 vec3_t vec3_add(vec3_t v1, vec3_t v2);
 
+// /* subtracts a vector by a magnitude */ 
+// vec3_t vec3_sub_mag(vec3_t v, double a);
+
 /* subtracts v2 from v1 */ 
 vec3_t vec3_sub(vec3_t v1, vec3_t v2);
 
@@ -37,6 +40,9 @@ vec3_t vec3_divide(vec3_t v, double a);
 
 /* calculates and returns the unit vector of the given vector */
 vec3_t vec3_unit_vec(vec3_t v);
+
+/* calculates and returns the dot product of the given vectors */
+double vec3_dot(vec3_t v1, vec3_t v2);
 
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v);

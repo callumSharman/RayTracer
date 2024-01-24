@@ -29,6 +29,11 @@ vec3_t vec3_add(vec3_t v1, vec3_t v2){
     return vec3_init(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
 
+// /* subtracts a vector by a magnitude */ 
+// vec3_t vec3_sub_mag(vec3_t v, double a){
+//     return vec3_init(v.x - a, v.y - a, v.z - a);
+// }
+
 /* subtracts v2 from v1 */ 
 vec3_t vec3_sub(vec3_t v1, vec3_t v2){
     return vec3_init(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
@@ -47,6 +52,11 @@ vec3_t vec3_divide(vec3_t v, double a){
 /* calculates and returns the unit vector of the given vector */
 vec3_t vec3_unit_vec(vec3_t v){
     return vec3_divide(v, vec3_mag(v));
+}
+
+/* calculates and returns the dot product of the given vectors */
+double vec3_dot(vec3_t v1, vec3_t v2){
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
 /* prints the vector to console in easily readable format */

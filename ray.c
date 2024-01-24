@@ -21,6 +21,10 @@ point3_t ray_point_at(ray_t r, double t){
 
 /* returns the colour of a ray */
 colour_t ray_colour(ray_t ray){
+    if(hit_sphere(vec3_init(0,0,-1), 0.5, ray)){
+        return vec3_init(1,0,0);
+    }
+
     // find the unit vector of the direction
     vec3_t unit_dir = vec3_unit_vec(ray.dir);
 
