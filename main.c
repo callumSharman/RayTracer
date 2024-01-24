@@ -9,28 +9,13 @@
 #define VIEWPORT_HEIGHT 2.0
 #define FOCAL_LENGTH 1.0
 
-/*
-TO-DO:
-	i think there may be something wrong with the values, 
-	the gradient isnt as strong as it should be.
-	possible causes: 
-		- incorrect unit vector detection
-		- issue with view port and camera calculation
-
-*/
-
 
 int main() {
 
-    /*
-    1. Calculate the ray from the “eye” through the pixel,
-    2. Determine which objects the ray intersects, and
-    3. Compute a color for the closest intersection point.
-    */
     // set the image height and viewport width, as they can vary with change to the constants
     int img_height = (IMG_WIDTH / (double) (ASPECT_RATIO));
     img_height = (img_height < 1) ? 1 : img_height; // must be at least 1 pixel tall
-    double viewport_width = VIEWPORT_HEIGHT * (double)((IMG_WIDTH)/img_height);
+    double viewport_width = VIEWPORT_HEIGHT * (IMG_WIDTH/(double)img_height);
 
     point3_t camera_center = vec3_init(0,0,0);
 
@@ -47,8 +32,8 @@ int main() {
                             - vec3(0, 0, focal_length)
                             - viewport_u/2
                             - viewport_v/2 */
-    vec3_t viewport_upper_left = vec3_add(vec3_add(vec3_add(camera_center, 
-										vec3_init(0,0,-FOCAL_LENGTH)), 
+    vec3_t viewport_upper_left = vec3_sub(vec3_sub(vec3_sub(camera_center, 
+										vec3_init(0,0,FOCAL_LENGTH)), 
 										vec3_divide(viewport_u, 2)),
 										vec3_divide(viewport_v, 2));
 
