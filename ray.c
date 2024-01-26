@@ -24,7 +24,7 @@ colour_t ray_colour(ray_t ray){
     point3_t center = vec3_init(0,0,-1);
     double radius = 0.5;
 
-    int t = hit_sphere(center, radius, ray);
+    double t = hit_sphere(center, radius, ray);
     if(t > 0){ // if the ray intersects
         /* calculate the normal vector. For a sphere, outward normal is 
            the direction of the hit point minus center */

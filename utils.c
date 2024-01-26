@@ -44,12 +44,11 @@ double hit_sphere(point3_t center, double radius, ray_t r){
     double b = 2 * vec3_dot(r.dir, vec3_sub(r.orig, center));
     double c = vec3_dot(vec3_sub(r.orig, center), vec3_sub(r.orig, center)) - radius*radius;
     double discriminant = (b*b) - (4*a*c);
-    return (discriminant >= 0);
 
     if(discriminant < 0){
         return -1.0;
     } else { // start by assuming only one solution
-        return ((-1*b) - sqrt(discriminant))/
-                            (2.0*a);
+        return (((-1*b) - sqrt(discriminant))/
+                        (2.0*a));
     }
 }
