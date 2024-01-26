@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "utils.h"
 #include "vec3.h"
 #include "ray.h"
@@ -35,12 +36,20 @@ void write_colour(FILE *file, colour_t colour){
 }
 
 /* takes a sphere defined by 'center', and 'radius', along with a ray and 
-   returns if there is an intersection */
-int hit_sphere(point3_t center, double radius, ray_t r){
+   returns < 0 if no intersection, otherwise returns t of intersection/s  */
+double hit_sphere(point3_t center, double radius, ray_t r){
     // using the quadratic formula find the discriminant to see if intersection
+    
     double a = vec3_dot(r.dir, r.dir);
-    double b = vec3_dot(vec3_multi(r.dir, 2), vec3_sub(r.orig, center));
+    double b = 2 * vec3_dot(r.dir, vec3_sub(r.orig, center));
     double c = vec3_dot(vec3_sub(r.orig, center), vec3_sub(r.orig, center)) - radius*radius;
     double discriminant = (b*b) - (4*a*c);
     return (discriminant >= 0);
+
+    if(discriminant < 0){
+        return -1.0;
+    } else { // start by assuming only one solution
+        return ((-1*b) - sqrt(discriminant))/
+                            (2.0*a);
+    }
 }

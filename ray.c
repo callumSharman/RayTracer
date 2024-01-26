@@ -21,8 +21,17 @@ point3_t ray_point_at(ray_t r, double t){
 
 /* returns the colour of a ray */
 colour_t ray_colour(ray_t ray){
-    if(hit_sphere(vec3_init(0,0,-1), 0.5, ray)){
-        return vec3_init(1,0,0);
+    point3_t center = vec3_init(0,0,-1);
+    double radius = 0.5;
+
+    int t = hit_sphere(center, radius, ray);
+    if(t > 0){ // if the ray intersects
+        /* calculate the normal vector. For a sphere, outward normal is 
+           the direction of the hit point minus center */
+        ///vec3_t N = vec3_sub(ray_point_at(ray, t), center);
+        vec3_t N = vec3_unit_vec(vec3_sub(ray_point_at(ray, t), center));
+
+        return vec3_multi(vec3_init(N.x + 1, N.y + 1, N.z + 1), 0.5); // put all colours from -1 to 1 within 0 to 1
     }
 
     // find the unit vector of the direction
@@ -36,8 +45,5 @@ colour_t ray_colour(ray_t ray){
     double a = 0.5 * (unit_dir.y + 1.0);
 
     colour_t blended_value = vec3_add(vec3_multi(start_col, (1-a)), vec3_multi(end_col, a));
-
-
-    // only returns black atm as a placeholder
     return blended_value;
 }
