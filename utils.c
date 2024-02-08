@@ -38,6 +38,7 @@ void write_colour(FILE *file, colour_t colour){
 /* takes a sphere defined by 'center', and 'radius', along with a ray and 
    returns < 0 if no intersection, otherwise returns t of intersection/s  */
 double hit_sphere(point3_t center, double radius, ray_t r){
+    // skipped step 6.2 to simplify this code
     // using the quadratic formula find the discriminant to see if intersection
     
     double a = vec3_dot(r.dir, r.dir);
