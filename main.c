@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "vec3.h"
 #include "ray.h"
+#include "sphere.h"
 
 #define ASPECT_RATIO 16.0 / 9.0
 #define IMG_WIDTH 400
@@ -44,10 +45,16 @@ int main() {
 								vec3_multi(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
 	
 
-    // image
+    /*========================image========================*/
     FILE *img = fopen("image.ppm", "w");
 
-    // render
+    /*========================render========================*/
+
+    spheres_t sphere_list;
+    sphere_list.spheres[0] = sphere_init(vec3_init(0,0,-1), 0.5);
+    sphere_list.spheres[1] = sphere_init(vec3_init(0,-100.5,-1), 100);
+
+
     fprintf(img, "P3\n%d %d\n255\n", IMG_WIDTH, img_height);
 
     for(int i = 0; i < img_height; i ++) {
@@ -60,7 +67,7 @@ int main() {
 			vec3_t ray_direction = vec3_sub(pixel_center, camera_center);
 
 			ray_t ray = ray_init(camera_center, ray_direction);
-			colour_t pixel_colour = ray_colour(ray);
+			colour_t pixel_colour = ray_colour(ray, sphere_list);
 
             write_colour(img, pixel_colour);
 

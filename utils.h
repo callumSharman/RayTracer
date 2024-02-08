@@ -4,6 +4,9 @@
 #include "vec3.h"
 #include "ray.h"
 
+
+#define PI 3.1415926535897932385
+
 /* Prints a progress bar to the console. Put within a loop, 
    give the current progress and the total (how much progress 
    should be when finished) */
@@ -13,8 +16,7 @@ void printProgress(int progress, int total);
    color to the given file */
 void write_colour(FILE *file, colour_t colour);
 
-/* takes a sphere defined by 'center', and 'radius', along with a ray and 
-   returns < 0 if no intersection, otherwise returns t of intersection/s */
-double hit_sphere(point3_t center, double radius, ray_t r);
+/* self explanatory */
+double degrees_to_radians(double degrees);
 
 #endif

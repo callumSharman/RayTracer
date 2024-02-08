@@ -4,6 +4,14 @@
 #include "vec3.h"
 #include "ray.h"
 
+/* initialise sphere instance. Takes the center and radius*/
+sphere_t sphere_init(point3_t center, double radius){
+    sphere_t sphere;
+    sphere.center = center;
+    sphere.radius = radius; 
+    return sphere;
+}
+
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
 int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_record_t* hr){

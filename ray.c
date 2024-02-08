@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <math.h>
 #include "utils.h"
 #include "vec3.h"
 #include "ray.h"
+#include "sphere.h"
 
 
 /* initialise ray instance. Takes origin and direction*/
@@ -19,20 +21,16 @@ point3_t ray_point_at(ray_t r, double t){
         
 }
 
-/* returns the colour of a ray */
-colour_t ray_colour(ray_t ray){
-    point3_t center = vec3_init(0,0,-1);
-    double radius = 0.5;
+/* takes a ray and list of spheres in the world, returns the colour of a ray */
+colour_t ray_colour(ray_t ray, spheres_t sphere_list){
 
-    double t = hit_sphere(center, radius, ray);
-    if(t > 0){ // if the ray intersects
-        /* calculate the normal vector. For a sphere, outward normal is 
-           the direction of the hit point minus center */
-        ///vec3_t N = vec3_sub(ray_point_at(ray, t), center);
-        vec3_t N = vec3_unit_vec(vec3_sub(ray_point_at(ray, t), center));
-
-        return vec3_multi(vec3_init(N.x + 1, N.y + 1, N.z + 1), 0.5); // put all colours from -1 to 1 within 0 to 1
+    /*========================SPHERES========================*/
+    hit_record_t hr;
+    if(spheres_hit(ray, sphere_list, 0, INFINITY, &hr)){
+        return(vec3_multi( vec3_add(hr.normal, vec3_init(1,1,1)) , 0.5));
     }
+
+    /*========================GROUND========================*/
 
     // find the unit vector of the direction
     vec3_t unit_dir = vec3_unit_vec(ray.dir);
