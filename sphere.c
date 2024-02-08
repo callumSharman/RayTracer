@@ -12,6 +12,13 @@ sphere_t sphere_init(point3_t center, double radius){
     return sphere;
 }
 
+/* initialise sphere list instance */
+spheres_t spheres_init(){
+    spheres_t spheres;
+    spheres.num_spheres = 0; 
+    return spheres;
+}
+
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
 int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_record_t* hr){
@@ -22,6 +29,7 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
     double b = 2 * vec3_dot(r.dir, vec3_sub(r.orig, sphere.center));
     double c = vec3_dot(vec3_sub(r.orig, sphere.center), vec3_sub(r.orig, sphere.center)) - sphere.radius*sphere.radius;
     double discriminant = (b*b) - (4*a*c);
+    if(discriminant < 0) return 0;
     double sqrt_discrim = sqrt(discriminant);
 
     // find the nearest root within the acceptable range
@@ -30,9 +38,9 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
     // this is the closest, if this is not within range, check the other
     double root = ((half_b * -1) - sqrt_discrim) / a;
     if(root <= rayt_min || rayt_max <= root) {
-        double root = ((half_b * -1) + sqrt_discrim) / a;
+        root = ((half_b * -1) + sqrt_discrim) / a;
         if(root <= rayt_min || rayt_max <= root){
-            return -1;
+            return 0;
         }
     }
 
@@ -49,10 +57,7 @@ int spheres_hit(ray_t r, spheres_t sphere_list, double rayt_min, double rayt_max
     hit_record_t temp_hr;
     int hit_anything = 0;
     double closest_so_far = rayt_max;
-
-    int num_spheres = sizeof(sphere_list.spheres)/sizeof(sphere_t);
-
-    for(int i = 0; i < num_spheres; i ++){
+    for(int i = 0; i < sphere_list.num_spheres; i ++){
         // if there is a closer hit with the next sphere then update it
         if(sphere_hit(r, sphere_list.spheres[i], rayt_min, closest_so_far, &temp_hr)){
             hit_anything = 1;
@@ -60,6 +65,7 @@ int spheres_hit(ray_t r, spheres_t sphere_list, double rayt_min, double rayt_max
             copy_hit_record(hr, &temp_hr); // this line may cause errors
         }
     }
+
     return hit_anything;
 }
 
@@ -77,6 +83,8 @@ void copy_hit_record(hit_record_t* hr1, hit_record_t* hr2){
 void sphere_set_face_normal(ray_t r, vec3_t* outward_normal, hit_record_t* hr){
         
     hr->front_face = vec3_dot(r.dir, *outward_normal) < 0;
+
+    //hr->normal = hr->front_face ? *outward_normal : vec3_multi(*outward_normal, -1);
 
     // if the hit record intersected on the front face then the outward normal is fine
     if(hr->front_face) hr->normal = *outward_normal;

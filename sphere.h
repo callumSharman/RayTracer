@@ -15,6 +15,7 @@ struct sphere {
 
 struct spheres { // currently holds a max of 10 spheres for simplification
     sphere_t spheres[10];
+    int num_spheres;
 };
 
 struct hit_record {
@@ -26,6 +27,9 @@ struct hit_record {
 
 /* initialise sphere instance. Takes the center and radius*/
 sphere_t sphere_init(point3_t center, double radius);
+
+/* initialise sphere list instance */
+spheres_t spheres_init();
 
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */

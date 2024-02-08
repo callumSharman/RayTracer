@@ -30,7 +30,7 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list){
         return(vec3_multi( vec3_add(hr.normal, vec3_init(1,1,1)) , 0.5));
     }
 
-    /*========================GROUND========================*/
+    /*========================BACKGROUND========================*/
 
     // find the unit vector of the direction
     vec3_t unit_dir = vec3_unit_vec(ray.dir);
