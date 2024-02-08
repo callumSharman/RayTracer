@@ -35,6 +35,35 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
     return 1;
 }
 
+/* returns whether a particular ray hits any of the given spheres, within the given t values
+   modifies the given hit record to be the closest sphere hit */
+int spheres_hit(ray_t r, spheres_t sphere_list, double rayt_min, double rayt_max, hit_record_t* hr){
+    hit_record_t temp_hr;
+    int hit_anything = 0;
+    double closest_so_far = rayt_max;
+
+    int num_spheres = sizeof(sphere_list.spheres)/sizeof(sphere_t);
+
+    for(int i = 0; i < num_spheres; i ++){
+        // if there is a closer hit with the next sphere then update it
+        if(sphere_hit(r, sphere_list.spheres[i], rayt_min, closest_so_far, &temp_hr)){
+            hit_anything = 1;
+            closest_so_far = temp_hr.t;
+            copy_hit_record(hr, &temp_hr); // this line may cause errors
+        }
+    }
+    return hit_anything;
+}
+
+/* copies the information from hr2 to hr1 */
+void copy_hit_record(hit_record_t* hr1, hit_record_t* hr2){
+    hr1->p = hr2->p; 
+    hr1->normal = hr2->normal;
+    hr1->t = hr2->t;
+    hr1->front_face = hr2->front_face;
+}
+
+
 /* takes the outward normal of the circle, the ray and the hit_record
    corrects the normal and front_face values */
 void sphere_set_face_normal(ray_t r, vec3_t* outward_normal, hit_record_t* hr){
