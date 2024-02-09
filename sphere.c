@@ -28,7 +28,7 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
     double half_b = vec3_dot(oc, r.dir);
     double c = vec3_length_squared(oc) - (sphere.radius*sphere.radius);
 
-    double discriminant = (half_b * half_b) - (4*a*c);
+    double discriminant = (half_b * half_b) - (a*c);
     if(discriminant < 0) return 0;
     double sqrt_discrim = sqrt(discriminant);
     // this is the closest, if this is not within range, check the other
