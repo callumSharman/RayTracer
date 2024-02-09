@@ -44,6 +44,9 @@ vec3_t vec3_unit_vec(vec3_t v);
 /* calculates and returns the dot product of the given vectors */
 double vec3_dot(vec3_t v1, vec3_t v2);
 
+/* calculates the length squared */
+double vec3_length_squared(vec3_t v);
+
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v);
 

@@ -51,9 +51,11 @@ int main() {
     /*========================render========================*/
 
     spheres_t sphere_list = spheres_init();
-    //sphere_list.spheres[0] = sphere_init(vec3_init(0,0,-1), 0.5);
-    sphere_list.spheres[0] = sphere_init(vec3_init(0,-100.5,-1), 100);
-    sphere_list.num_spheres = 1;
+    sphere_list.spheres[0] = sphere_init(vec3_init(0,0,-1), 0.9);
+    sphere_list.spheres[1] = sphere_init(vec3_init(0,-100.5,-1), 100);
+    sphere_list.num_spheres = 2;
+
+    sphere_print(sphere_list.spheres[0]);
 
     fprintf(img, "P3\n%d %d\n255\n", IMG_WIDTH, img_height);
 

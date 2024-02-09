@@ -59,6 +59,11 @@ double vec3_dot(vec3_t v1, vec3_t v2){
     return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
+/* calculates the length squared */
+double vec3_length_squared(vec3_t v){
+    return((v.x*v.x) + (v.y*v.y) + (v.z*v.z));
+}
+
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v){
     printf("Vector3(%f,%f,%f)\n", v.x, v.y, v.z);

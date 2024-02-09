@@ -22,19 +22,15 @@ spheres_t spheres_init(){
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
 int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_record_t* hr){
-    // skipped step 6.2 to simplify this code
     // using the quadratic formula find the discriminant to see if intersection
-    
-    double a = vec3_dot(r.dir, r.dir);
-    double b = 2 * vec3_dot(r.dir, vec3_sub(r.orig, sphere.center));
-    double c = vec3_dot(vec3_sub(r.orig, sphere.center), vec3_sub(r.orig, sphere.center)) - sphere.radius*sphere.radius;
-    double discriminant = (b*b) - (4*a*c);
+    vec3_t oc = vec3_sub(r.orig, sphere.center);
+    double a = vec3_length_squared(r.dir);
+    double half_b = vec3_dot(oc, r.dir);
+    double c = vec3_length_squared(oc) - (sphere.radius*sphere.radius);
+
+    double discriminant = (half_b * half_b) - (4*a*c);
     if(discriminant < 0) return 0;
     double sqrt_discrim = sqrt(discriminant);
-
-    // find the nearest root within the acceptable range
-    double half_b = vec3_dot(vec3_sub(r.orig, sphere.center), r.dir);
-
     // this is the closest, if this is not within range, check the other
     double root = ((half_b * -1) - sqrt_discrim) / a;
     if(root <= rayt_min || rayt_max <= root) {
@@ -65,7 +61,6 @@ int spheres_hit(ray_t r, spheres_t sphere_list, double rayt_min, double rayt_max
             copy_hit_record(hr, &temp_hr); // this line may cause errors
         }
     }
-
     return hit_anything;
 }
 
@@ -90,4 +85,11 @@ void sphere_set_face_normal(ray_t r, vec3_t* outward_normal, hit_record_t* hr){
     if(hr->front_face) hr->normal = *outward_normal;
     else hr->normal = vec3_multi(*outward_normal, -1);
 
+}
+
+/* prints the sphere to console in easily readable format */
+void sphere_print(sphere_t s){
+    printf("Center: "); 
+    vec3_print(s.center);
+    printf("Radius: %f\n", s.radius);
 }

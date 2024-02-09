@@ -46,4 +46,7 @@ void copy_hit_record(hit_record_t* hr1, hit_record_t* hr2);
    corrects the normal and front_face values */
 void sphere_set_face_normal(ray_t r, vec3_t* outward_normal, hit_record_t* hr);
 
+/* prints the sphere to console in easily readable format */
+void sphere_print(sphere_t s);
+
 #endif
