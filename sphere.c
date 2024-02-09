@@ -3,6 +3,7 @@
 #include "sphere.h"
 #include "vec3.h"
 #include "ray.h"
+#include "interval.h"
 
 /* initialise sphere instance. Takes the center and radius*/
 sphere_t sphere_init(point3_t center, double radius){
@@ -21,7 +22,7 @@ spheres_t spheres_init(){
 
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
-int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_record_t* hr){
+int sphere_hit(ray_t r, sphere_t sphere, interval_t rayt, hit_record_t* hr){
     // using the quadratic formula find the discriminant to see if intersection
     vec3_t oc = vec3_sub(r.orig, sphere.center);
     double a = vec3_length_squared(r.dir);
@@ -33,9 +34,9 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
     double sqrt_discrim = sqrt(discriminant);
     // this is the closest, if this is not within range, check the other
     double root = ((half_b * -1) - sqrt_discrim) / a;
-    if(root <= rayt_min || rayt_max <= root) {
+    if(!interval_surrounds(rayt, root)) {
         root = ((half_b * -1) + sqrt_discrim) / a;
-        if(root <= rayt_min || rayt_max <= root){
+        if(!interval_surrounds(rayt, root)){
             return 0;
         }
     }
@@ -49,13 +50,13 @@ int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_r
 
 /* returns whether a particular ray hits any of the given spheres, within the given t values
    modifies the given hit record to be the closest sphere hit */
-int spheres_hit(ray_t r, spheres_t sphere_list, double rayt_min, double rayt_max, hit_record_t* hr){
+int spheres_hit(ray_t r, spheres_t sphere_list, interval_t rayt, hit_record_t* hr){
     hit_record_t temp_hr;
     int hit_anything = 0;
-    double closest_so_far = rayt_max;
+    double closest_so_far = rayt.max;
     for(int i = 0; i < sphere_list.num_spheres; i ++){
         // if there is a closer hit with the next sphere then update it
-        if(sphere_hit(r, sphere_list.spheres[i], rayt_min, closest_so_far, &temp_hr)){
+        if(sphere_hit(r, sphere_list.spheres[i], interval_init(rayt.min, closest_so_far), &temp_hr)){
             hit_anything = 1;
             closest_so_far = temp_hr.t;
             copy_hit_record(hr, &temp_hr); // this line may cause errors

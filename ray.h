@@ -11,7 +11,7 @@ struct ray {
     vec3_t dir; // direction
 };
 
-/* initialise ray instance. Takes origin and direction*/
+/* initialise ray instance. Takes origin and direction */
 ray_t ray_init(point3_t origin, vec3_t direction);
 
 /* finds the point on the given ray at t */

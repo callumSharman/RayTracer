@@ -2,8 +2,8 @@ CFLAGS = -Wall -g -lm
 CC= gcc
 
 
-imgGenerator: main.o utils.o vec3.o ray.o sphere.o
-	$(CC) -o imgGenerator main.o utils.o vec3.o ray.o sphere.o $(CFLAGS)
+imgGenerator: main.o utils.o vec3.o ray.o sphere.o interval.o
+	$(CC) -o imgGenerator main.o utils.o vec3.o ray.o sphere.o interval.o $(CFLAGS)
 
 main.o: main.c
 	$(CC) -c main.c -o main.o $(CFLAGS)
@@ -19,6 +19,9 @@ ray.o: ray.c
 
 sphere.o: sphere.c
 	$(CC) -c sphere.c -o sphere.o $(CFLAGS)
+
+interval.o: interval.c
+	$(CC) -c interval.c -o interval.o $(CFLAGS)
 
 run:
 	make imgGenerator

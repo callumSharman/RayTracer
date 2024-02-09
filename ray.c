@@ -4,9 +4,10 @@
 #include "vec3.h"
 #include "ray.h"
 #include "sphere.h"
+#include "interval.h"
 
 
-/* initialise ray instance. Takes origin and direction*/
+/* initialise ray instance. Takes origin and direction */
 ray_t ray_init(point3_t origin, vec3_t direction){
     ray_t r;
     r.orig = origin; r.dir = direction;
@@ -26,7 +27,8 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list){
 
     /*========================SPHERES========================*/
     hit_record_t hr;
-    if(spheres_hit(ray, sphere_list, 0, INFINITY, &hr)){
+    //if(spheres_hit(ray, sphere_list, 0, INFINITY, &hr)){
+    if(spheres_hit(ray, sphere_list, interval_init(0, INFINITY), &hr)){
         return(vec3_multi( vec3_add(hr.normal, vec3_init(1,1,1)) , 0.5));
     }
 

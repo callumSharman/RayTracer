@@ -3,6 +3,7 @@
 
 #include "vec3.h"
 #include "ray.h"
+#include "interval.h"
 
 typedef struct sphere sphere_t;
 typedef struct spheres spheres_t;
@@ -33,11 +34,11 @@ spheres_t spheres_init();
 
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
-int sphere_hit(ray_t r, sphere_t sphere, double rayt_min, double rayt_max, hit_record_t* hr);
+int sphere_hit(ray_t r, sphere_t sphere, interval_t rayt, hit_record_t* hr);
 
 /* returns whether a particular ray hits any of the given spheres, within the given t values
    modifies the given hit record */
-int spheres_hit(ray_t r, spheres_t spheres, double rayt_min, double rayt_max, hit_record_t* hr);
+int spheres_hit(ray_t r, spheres_t sphere_list, interval_t rayt, hit_record_t* hr);
 
 /* copies the information from hr2 to hr1 */
 void copy_hit_record(hit_record_t* hr1, hit_record_t* hr2);
