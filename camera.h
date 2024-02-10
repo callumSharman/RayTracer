@@ -8,6 +8,7 @@
 
 #define VIEWPORT_HEIGHT 2.0
 #define FOCAL_LENGTH 1.0
+#define SAMPLES_PER_PIXEL 10
 
 
 typedef struct camera camera_t;
@@ -20,6 +21,7 @@ struct camera {
     point3_t pixel00_loc; // location of pixel (0,0)
     vec3_t pixel_delta_u; // offset of pixel to the right
     vec3_t pixel_delta_v; // offset of pixel below
+    int samples_per_pixel;
 };
 
 /* initialise camera instance */

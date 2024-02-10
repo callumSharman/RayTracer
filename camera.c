@@ -43,6 +43,8 @@ camera_t camera_init(double aspect_ratio, int img_width){
     // im fairly certain this is the center of the top left pixel
     cam.pixel00_loc = vec3_add(viewport_upper_left, 
                                 vec3_multi(vec3_add(cam.pixel_delta_u, cam.pixel_delta_v), 0.5));
+
+    cam.samples_per_pixel = SAMPLES_PER_PIXEL;
                                 
     return cam;
 }

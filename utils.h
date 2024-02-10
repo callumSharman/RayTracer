@@ -14,9 +14,15 @@ void printProgress(int progress, int total);
 
 /* writes the translated [0, 255] value a single pixel's 
    color to the given file */
-void write_colour(FILE *file, colour_t colour);
+void write_colour(FILE *file, colour_t colour, int samples_per_pixel);
 
 /* self explanatory */
 double degrees_to_radians(double degrees);
+
+/* returns a random double in [0,1) */
+double rand_double();
+
+/* returns a random double in [min,max) */
+double rand_double_min_max(double min, double max);
 
 #endif

@@ -17,3 +17,10 @@ int interval_contains(interval_t inter, double x){
 int interval_surrounds(interval_t inter, double x){
     return((inter.min < x) && (x < inter.max));
 }
+
+/* clamps a double to be within the interval */
+double interval_clamp(interval_t inter, double x){
+    if(x < inter.min) return inter.min;
+    if(x > inter.max) return inter.max;
+}
+
