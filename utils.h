@@ -25,4 +25,7 @@ double rand_double();
 /* returns a random double in [min,max) */
 double rand_double_min_max(double min, double max);
 
+/* gamma corrects a linear colour component */
+double linear_to_gamma(double linear_component);
+
 #endif

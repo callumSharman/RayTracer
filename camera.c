@@ -82,7 +82,7 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
     /*========================SPHERES========================*/
     hit_record_t hr;
 
-    // max depth reached means full black
+    // max depth reached means full black (in complete shadow)
     if(depth <= 0) return vec3_init(0,0,0);
 
     if(spheres_hit(ray, sphere_list, interval_init(0.001, INFINITY), &hr)){
@@ -90,6 +90,8 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
         //vec3_t direction = vec3_rand_on_hemisphere(hr.normal);
 
         // lambertian illumination
+            // lamb. gives rays that more often point towards the normal, 
+            // the standard is more evenly spread
         vec3_t direction = vec3_add(hr.normal, vec3_rand_unit());
 
         return(vec3_multi(ray_colour(ray_init(hr.p, direction) ,sphere_list, depth-1), 0.5));

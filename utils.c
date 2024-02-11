@@ -36,10 +36,16 @@ void write_colour(FILE *file, colour_t colour, int samples_per_pixel){
     double g = colour.y;
     double b = colour.z;
 
+    // average colour
     double scale = 1.0 / samples_per_pixel;
     r *= scale;
     g *= scale;
     b *= scale;
+
+    // gamma correction
+    r = linear_to_gamma(r);
+    g = linear_to_gamma(g);
+    b = linear_to_gamma(b);
 
     interval_t intensity = interval_init(0.000,0.999);
 
@@ -64,4 +70,9 @@ double rand_double(){
 /* returns a random double in [min,max) */
 double rand_double_min_max(double min, double max){
     return(min + (max-min)*rand_double());
+}
+
+/* gamma corrects a linear colour component */
+double linear_to_gamma(double linear_component){
+    return sqrt(linear_component);
 }
