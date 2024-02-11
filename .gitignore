@@ -55,4 +55,7 @@ dkms.conf
 *
 !*.c
 !*.h
+!/images
+!*.ppm
+image.ppm
 !Makefile

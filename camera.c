@@ -86,10 +86,13 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
     if(depth <= 0) return vec3_init(0,0,0);
 
     if(spheres_hit(ray, sphere_list, interval_init(0.001, INFINITY), &hr)){
-        vec3_t direction = vec3_rand_on_hemisphere(hr.normal);
-        return(vec3_multi(ray_colour(ray_init(hr.p, direction) ,sphere_list, depth-1), 0.5));
+        // standard diffuse illumination
+        //vec3_t direction = vec3_rand_on_hemisphere(hr.normal);
 
-        //return(vec3_multi( vec3_add(hr.normal, vec3_init(1,1,1)) , 0.5));
+        // lambertian illumination
+        vec3_t direction = vec3_add(hr.normal, vec3_rand_unit());
+
+        return(vec3_multi(ray_colour(ray_init(hr.p, direction) ,sphere_list, depth-1), 0.5));
     }
 
     /*========================BACKGROUND========================*/
