@@ -19,5 +19,4 @@ ray_t ray_init(point3_t origin, vec3_t direction){
 point3_t ray_point_at(ray_t r, double t){
     // P(t) = A + tb (A is orign, b is direction)
     return(vec3_add(r.orig, vec3_multi(r.dir, t)));
-        
 }

@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "vec3.h"
 #include "ray.h"
+#include "interval.h"
 
 
 /* Prints a progress bar to the console. Put within a loop, 
@@ -40,10 +41,11 @@ void write_colour(FILE *file, colour_t colour, int samples_per_pixel){
     g *= scale;
     b *= scale;
 
+    interval_t intensity = interval_init(0.000,0.999);
 
-    int ir = (int)(255.999 * r);
-    int ig = (int)(255.999 * g);
-    int ib = (int)(255.999 * b);
+    int ir = (int)(255.999 * interval_clamp(intensity, r));
+    int ig = (int)(255.999 * interval_clamp(intensity, g));
+    int ib = (int)(255.999 * interval_clamp(intensity, b));
     fprintf(file, "%d %d %d\n", ir, ig, ib);
 }
 
@@ -54,7 +56,7 @@ double degrees_to_radians(double degrees){
 
 /* returns a random double in [0,1) */
 double rand_double(){
-    srand(time(NULL)); // seed the random number generator
+    //srand(time(NULL)); // seed the random number generator
     return(rand()/(RAND_MAX + 1.0));
 
 }

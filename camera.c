@@ -56,17 +56,15 @@ void render(FILE* img, camera_t camera, spheres_t sphere_list){
 
     for(int i = 0; i < camera.img_height; i ++) {
         for(int j = 0; j < camera.img_width; ++j) {
+            colour_t pixel_colour = vec3_init(0,0,0);
 
-			// point = p + (delta_u*j) + (delta_v*i)
-			point3_t pixel_center = vec3_add(camera.pixel00_loc, 
-									vec3_add(vec3_multi(camera.pixel_delta_u, j), 
-											 vec3_multi(camera.pixel_delta_v, i)));
-			vec3_t ray_direction = vec3_sub(pixel_center, camera.center);
+            // run sampling for antialiasing
+            for(int sample = 0; sample < camera.samples_per_pixel; ++sample){
+                ray_t r = get_ray(j, i, camera);
+                pixel_colour = vec3_add(pixel_colour, ray_colour(r, sphere_list));
+            }
 
-			ray_t ray = ray_init(camera.center, ray_direction);
-			colour_t pixel_colour = ray_colour(ray, sphere_list);
-
-            write_colour(img, pixel_colour);
+            write_colour(img, pixel_colour, camera.samples_per_pixel);
 
         }
 
@@ -99,4 +97,25 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list){
 
     colour_t blended_value = vec3_add(vec3_multi(start_col, (1-a)), vec3_multi(end_col, a));
     return blended_value;
+}
+
+/* get a randomly sampled camera ray for the pixel at (i,j) */
+ray_t get_ray(int i, int j, camera_t cam){
+    vec3_t pixel_center = vec3_add(cam.pixel00_loc, 
+                          vec3_add((vec3_multi(cam.pixel_delta_u, i)), 
+                                   (vec3_multi(cam.pixel_delta_v, j))));
+    vec3_t pixel_sample = vec3_add(pixel_center, pixel_sample_square(cam));
+
+    vec3_t ray_origin = cam.center;
+    vec3_t ray_dir = vec3_sub(pixel_sample, ray_origin);
+    return ray_init(ray_origin, ray_dir);
+}
+
+/* returns a random point in the square surrounding a pixel at the origin */
+vec3_t pixel_sample_square(camera_t cam){
+    double px = -0.5 + rand_double();
+    double py = -0.5 + rand_double();
+    return(vec3_add((vec3_multi(cam.pixel_delta_u, px)), 
+                    (vec3_multi(cam.pixel_delta_v, py))));
+    
 }

@@ -8,7 +8,7 @@
 
 #define VIEWPORT_HEIGHT 2.0
 #define FOCAL_LENGTH 1.0
-#define SAMPLES_PER_PIXEL 10
+#define SAMPLES_PER_PIXEL 100
 
 
 typedef struct camera camera_t;
@@ -32,5 +32,11 @@ void render(FILE* img, camera_t camera, spheres_t sphere_list);
 
 /* takes a ray and list of spheres in the world returns, the colour of a ray */
 colour_t ray_colour(ray_t ray, spheres_t sphere_list);
+
+/* get a randomly sampled camera ray for the pixel at (i,j) */
+ray_t get_ray(int i, int j, camera_t cam);
+
+/* returns a random point in the square surrounding a pixel at the origin */
+vec3_t pixel_sample_square(camera_t cam);
 
 #endif

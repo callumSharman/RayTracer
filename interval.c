@@ -22,5 +22,6 @@ int interval_surrounds(interval_t inter, double x){
 double interval_clamp(interval_t inter, double x){
     if(x < inter.min) return inter.min;
     if(x > inter.max) return inter.max;
+    return x;
 }
 
