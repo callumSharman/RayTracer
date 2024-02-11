@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "vec3.h"
+#include "utils.h"
 
 
 /* initialise vec3 instance. Takes x, y, z doubles */
@@ -67,4 +68,48 @@ double vec3_length_squared(vec3_t v){
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v){
     printf("Vector3(%f,%f,%f)\n", v.x, v.y, v.z);
+}
+
+/* returns a random vector with values in [0,1) */
+vec3_t vec3_random(){
+    return(vec3_init(rand_double(), 
+                     rand_double(), 
+                     rand_double()));
+}
+
+/* returns a random vector with values in [min,max) */
+vec3_t vec3_random_min_max(double min, double max){
+    return(vec3_init(rand_double_min_max(min, max),
+                     rand_double_min_max(min, max),
+                     rand_double_min_max(min, max)));
+}
+
+/* generates random vec3 in the unit sphere */
+vec3_t vec3_rand_in_unit_sphere(){
+    // generate using rejection method. 
+    // pick a random point in the unit cube
+    // reject the point if it is outside the sphere
+    while(1){
+        vec3_t point = vec3_random_min_max(-1,1);
+        if(vec3_length_squared(point) < 1){
+            return point;
+        }
+    }
+}
+
+/* generates a random unit vector on the unit sphere */
+vec3_t vec3_rand_unit(){
+    return vec3_unit_vec(vec3_rand_in_unit_sphere());
+}
+
+/* generates a random vec3 on the same hemisphere as the given normal */
+vec3_t vec3_rand_on_hemisphere(vec3_t normal){
+    vec3_t vec_on_sphere = vec3_rand_unit();
+
+    // positive dot product indicates same hemisphere
+    if(vec3_dot(vec_on_sphere, normal) > 0){
+        return vec_on_sphere;
+    } else {
+        return vec3_multi(vec_on_sphere, -1);
+    }
 }

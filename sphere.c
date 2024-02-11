@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "ray.h"
 #include "interval.h"
+#include "utils.h"
 
 /* initialise sphere instance. Takes the center and radius*/
 sphere_t sphere_init(point3_t center, double radius){

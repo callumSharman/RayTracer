@@ -9,6 +9,7 @@
 #define VIEWPORT_HEIGHT 2.0
 #define FOCAL_LENGTH 1.0
 #define SAMPLES_PER_PIXEL 100
+#define MAX_DEPTH 50
 
 
 typedef struct camera camera_t;
@@ -21,7 +22,8 @@ struct camera {
     point3_t pixel00_loc; // location of pixel (0,0)
     vec3_t pixel_delta_u; // offset of pixel to the right
     vec3_t pixel_delta_v; // offset of pixel below
-    int samples_per_pixel;
+    int samples_per_pixel; // number of random samples for each pixel
+    int max_depth; // max number of ray bounces
 };
 
 /* initialise camera instance */
@@ -30,8 +32,9 @@ camera_t camera_init(double aspect_ratio, int img_width);
 /* renders the objects given to the file given */
 void render(FILE* img, camera_t camera, spheres_t sphere_list);
 
-/* takes a ray and list of spheres in the world returns, the colour of a ray */
-colour_t ray_colour(ray_t ray, spheres_t sphere_list);
+/* takes a ray and list of spheres in the world, returns the colour of a ray,
+   depth is how many bounces left you wish to go */
+colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth);
 
 /* get a randomly sampled camera ray for the pixel at (i,j) */
 ray_t get_ray(int i, int j, camera_t cam);

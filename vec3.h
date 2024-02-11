@@ -50,4 +50,19 @@ double vec3_length_squared(vec3_t v);
 /* prints the vector to console in easily readable format */
 void vec3_print(vec3_t v);
 
+/* returns a random vector with values in [0,1) */
+vec3_t vec3_random();
+
+/* returns a random vector with values in [min,max) */
+vec3_t vec3_random_min_max(double min, double max);
+
+/* generates random vec3 in the unit sphere */
+vec3_t random_in_unit_sphere();
+
+/* generates a random unit vector on the unit sphere */
+vec3_t vec3_rand_unit();
+
+/* generates a random vec3 on the same hemisphere as the given normal */
+vec3_t vec3_rand_on_hemisphere(vec3_t normal);
+
 #endif
