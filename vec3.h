@@ -38,6 +38,9 @@ vec3_t vec3_multi(vec3_t v, double a);
 /* divides a vec3 by the given magnitude */
 vec3_t vec3_divide(vec3_t v, double a);
 
+/* multiplies the elements of the given vectors */
+vec3_t vec3_element_wise_multi(vec3_t v1, vec3_t v2);
+
 /* calculates and returns the unit vector of the given vector */
 vec3_t vec3_unit_vec(vec3_t v);
 
@@ -64,5 +67,11 @@ vec3_t vec3_rand_unit();
 
 /* generates a random vec3 on the same hemisphere as the given normal */
 vec3_t vec3_rand_on_hemisphere(vec3_t normal);
+
+/* returns true if the vector is close to zero in all dimensions */
+int near_zero(vec3_t v);
+
+/* returns the vector of a vector perfectly reflected off of a surface with normal n */
+vec3_t vec3_reflect(vec3_t v, vec3_t n);
 
 #endif

@@ -5,6 +5,7 @@
 #include "ray.h"
 #include "sphere.h"
 #include "utils.h"
+#include "materials.h"
 
 
 /* initialise camera instance */
@@ -86,15 +87,25 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
     if(depth <= 0) return vec3_init(0,0,0);
 
     if(spheres_hit(ray, sphere_list, interval_init(0.001, INFINITY), &hr)){
+        ray_t scattered;
+        vec3_t attenuation;
+
+        if(hr.material.scatter_func(ray, &hr, &attenuation, &scattered)){
+            return(vec3_element_wise_multi(attenuation, ray_colour(scattered ,sphere_list, depth-1)));
+        }
+        return vec3_init(0,0,0);
+
+
+
         // standard diffuse illumination
         //vec3_t direction = vec3_rand_on_hemisphere(hr.normal);
 
         // lambertian illumination
             // lamb. gives rays that more often point towards the normal, 
             // the standard is more evenly spread
-        vec3_t direction = vec3_add(hr.normal, vec3_rand_unit());
+        // vec3_t direction = vec3_add(hr.normal, vec3_rand_unit());
 
-        return(vec3_multi(ray_colour(ray_init(hr.p, direction) ,sphere_list, depth-1), 0.5));
+        // return(vec3_multi(ray_colour(ray_init(hr.p, direction) ,sphere_list, depth-1), 0.5));
     }
 
     /*========================BACKGROUND========================*/

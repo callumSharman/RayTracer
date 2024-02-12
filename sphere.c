@@ -5,12 +5,14 @@
 #include "ray.h"
 #include "interval.h"
 #include "utils.h"
+#include "materials.h"
 
 /* initialise sphere instance. Takes the center and radius*/
-sphere_t sphere_init(point3_t center, double radius){
+sphere_t sphere_init(point3_t center, double radius, material_t material){
     sphere_t sphere;
     sphere.center = center;
     sphere.radius = radius; 
+    sphere.material = material;
     return sphere;
 }
 
@@ -46,6 +48,7 @@ int sphere_hit(ray_t r, sphere_t sphere, interval_t rayt, hit_record_t* hr){
     hr->p = ray_point_at(r, hr->t);
     vec3_t outward_normal = vec3_divide(vec3_sub(hr->p, sphere.center), sphere.radius);
     sphere_set_face_normal(r, &outward_normal, hr);
+    hr->material = sphere.material;
     return 1;
 }
 

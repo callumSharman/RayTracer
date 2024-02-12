@@ -1,12 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "camera.h"
+#include "materials.h"
 
 int main() {
+    material_t ground_mat = lamb_surface_init(vec3_init(0.8,0.8,0.0));
+    material_t left_mat = metal_surface_init(vec3_init(0.8,0.8,0.8));
+    material_t right_mat = metal_surface_init(vec3_init(0.8,0.6,0.2));
+
+
+
     spheres_t sphere_list = spheres_init();
-    sphere_list.spheres[0] = sphere_init(vec3_init(0,0,-1), 0.5);
-    sphere_list.spheres[1] = sphere_init(vec3_init(0,-100.5,-1), 100);
-    sphere_list.num_spheres = 2;
+
+    // GROUND SPHERE
+    sphere_list.spheres[0] = sphere_init(vec3_init(0,-100.5,-1), 100, ground_mat);
+
+    // LEFT SPHERE
+    sphere_list.spheres[1] = sphere_init(vec3_init(-0.5,0.0,-1), 0.5, left_mat);
+
+    // RIGHT SPHERE
+    sphere_list.spheres[2] = sphere_init(vec3_init(0.5,0.0,-1), 0.5, right_mat);
+
+    sphere_list.num_spheres = 3;
 
     FILE *img = fopen("image.ppm", "w");
 

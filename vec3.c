@@ -50,6 +50,13 @@ vec3_t vec3_divide(vec3_t v, double a){
     return vec3_init(v.x / a, v.y / a, v.z / a);
 }
 
+/* multiplies the elements of the given vectors */
+vec3_t vec3_element_wise_multi(vec3_t v1, vec3_t v2){
+    return(vec3_init(v1.x * v2.x,
+                     v1.y * v2.y,
+                     v1.z * v2.z));
+}
+
 /* calculates and returns the unit vector of the given vector */
 vec3_t vec3_unit_vec(vec3_t v){
     return vec3_divide(v, vec3_mag(v));
@@ -112,4 +119,17 @@ vec3_t vec3_rand_on_hemisphere(vec3_t normal){
     } else {
         return vec3_multi(vec_on_sphere, -1);
     }
+}
+
+/* returns true if the vector is close to zero in all dimensions */
+int near_zero(vec3_t v){
+    double s = 1e-8;
+    return((fabs(v.x) < s) && 
+           (fabs(v.y) < s) && 
+           (fabs(v.z) < s)); 
+}
+
+/* returns the vector of a vector perfectly reflected off of a surface with normal n */
+vec3_t vec3_reflect(vec3_t v, vec3_t n){
+    return(vec3_sub(v, vec3_multi(vec3_multi(n, 2), vec3_dot(v,n))));
 }
