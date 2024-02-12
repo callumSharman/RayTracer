@@ -9,6 +9,8 @@ int main() {
     material_t left_mat = metal_surface_init(vec3_init(0.8,0.8,0.8));
     material_t right_mat = metal_surface_init(vec3_init(0.8,0.6,0.2));
 
+    material_t close_mat = metal_surface_init(vec3_init(0.7,0.5,0.8));
+
 
 
     spheres_t sphere_list = spheres_init();
@@ -20,12 +22,15 @@ int main() {
     sphere_list.spheres[1] = sphere_init(vec3_init(0.0,0.0,-1), 0.5, center_mat);
 
     // LEFT SPHERE
-    sphere_list.spheres[2] = sphere_init(vec3_init(-1.0,0.0,-1), 0.5, left_mat);
+    sphere_list.spheres[2] = sphere_init(vec3_init(-1.2,0.0,-1.5), 0.5, left_mat);
 
     // RIGHT SPHERE
-    sphere_list.spheres[3] = sphere_init(vec3_init(1.0,0.0,-1), 0.5, right_mat);
+    sphere_list.spheres[3] = sphere_init(vec3_init(0.7,-0.2,-0.6), 0.3, right_mat);
 
-    sphere_list.num_spheres = 4;
+    // CLOSE SPHERE
+    sphere_list.spheres[4] = sphere_init(vec3_init(-0.35,-0.4,-0.6), 0.1, close_mat);
+
+    sphere_list.num_spheres = 5;
 
     FILE *img = fopen("image.ppm", "w");
 
