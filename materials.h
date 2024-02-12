@@ -32,4 +32,7 @@ material_t metal_surface_init(vec3_t albedo);
 int metal_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation, 
                                 ray_t* scattered);
 
+/* copies the information from mat2 to mat1 */
+void copy_material(material_t* mat1, material_t* mat2);
+
 #endif

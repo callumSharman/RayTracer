@@ -90,9 +90,14 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
         ray_t scattered;
         vec3_t attenuation;
 
-        if(hr.material.scatter_func(ray, &hr, &attenuation, &scattered)){
+        if(lamb_scatter(ray, &hr, &attenuation, &scattered)){
             return(vec3_element_wise_multi(attenuation, ray_colour(scattered ,sphere_list, depth-1)));
         }
+
+
+        // if(hr.material.scatter_func(ray, &hr, &attenuation, &scattered)){
+        //     return(vec3_element_wise_multi(attenuation, ray_colour(scattered ,sphere_list, depth-1)));
+        // }
         return vec3_init(0,0,0);
 
 

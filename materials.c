@@ -23,6 +23,7 @@ int lamb_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation,
     scattered->dir = scatter_dir;
     scattered->orig = hr->p;
     *attenuation = hr->material.albedo;
+
     return 1;
 }
 
@@ -39,10 +40,15 @@ material_t metal_surface_init(vec3_t albedo){
    attenuation and scattered ray */
 int metal_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation, 
                                 ray_t* scattered){
-
     vec3_t reflected = vec3_reflect(vec3_unit_vec(r.dir), hr->normal);
     scattered->dir = reflected;
     scattered->orig = hr->p;
     *attenuation = hr->material.albedo;
     return 1;
+}
+
+/* copies the information from mat2 to mat1 */
+void copy_material(material_t* mat1, material_t* mat2){
+    mat1->albedo = mat2->albedo;
+    mat1->scatter_func = mat2->scatter_func;
 }

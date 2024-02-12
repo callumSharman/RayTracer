@@ -26,6 +26,7 @@ spheres_t spheres_init(){
 /* returns whether a particular ray hits the given sphere, within the given t values
    modifies the given hit record */
 int sphere_hit(ray_t r, sphere_t sphere, interval_t rayt, hit_record_t* hr){
+
     // using the quadratic formula find the discriminant to see if intersection
     vec3_t oc = vec3_sub(r.orig, sphere.center);
     double a = vec3_length_squared(r.dir);
@@ -49,12 +50,14 @@ int sphere_hit(ray_t r, sphere_t sphere, interval_t rayt, hit_record_t* hr){
     vec3_t outward_normal = vec3_divide(vec3_sub(hr->p, sphere.center), sphere.radius);
     sphere_set_face_normal(r, &outward_normal, hr);
     hr->material = sphere.material;
+
     return 1;
 }
 
 /* returns whether a particular ray hits any of the given spheres, within the given t values
    modifies the given hit record to be the closest sphere hit */
 int spheres_hit(ray_t r, spheres_t sphere_list, interval_t rayt, hit_record_t* hr){
+
     hit_record_t temp_hr;
     int hit_anything = 0;
     double closest_so_far = rayt.max;
@@ -63,6 +66,7 @@ int spheres_hit(ray_t r, spheres_t sphere_list, interval_t rayt, hit_record_t* h
         if(sphere_hit(r, sphere_list.spheres[i], interval_init(rayt.min, closest_so_far), &temp_hr)){
             hit_anything = 1;
             closest_so_far = temp_hr.t;
+
             copy_hit_record(hr, &temp_hr); // this line may cause errors
         }
     }
@@ -75,6 +79,7 @@ void copy_hit_record(hit_record_t* hr1, hit_record_t* hr2){
     hr1->normal = hr2->normal;
     hr1->t = hr2->t;
     hr1->front_face = hr2->front_face;
+    copy_material(&(hr1->material), &(hr2->material));
 }
 
 
