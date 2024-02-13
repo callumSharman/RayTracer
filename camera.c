@@ -17,13 +17,19 @@ camera_t camera_init(double aspect_ratio, int img_width){
     cam.img_width = img_width;
     cam.img_height = (img_width / (double) (aspect_ratio));
     cam.img_height = (cam.img_height < 1) ? 1 : cam.img_height; // must be at least 1 pixel tall
-    double viewport_width = VIEWPORT_HEIGHT * (cam.img_width/(double)cam.img_height);
-
+    
     cam.center = vec3_init(0,0,0);
+
+
+    cam.vfov = VFOV;
+    double theta = degrees_to_radians(cam.vfov);
+    double h = tan(theta/2);
+    double viewport_height = 2 * h * FOCAL_LENGTH;
+    double viewport_width = viewport_height * (cam.img_width/(double)cam.img_height);
 
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
     vec3_t viewport_u = vec3_init(viewport_width, 0, 0);
-    vec3_t viewport_v = vec3_init(0, -VIEWPORT_HEIGHT, 0);
+    vec3_t viewport_v = vec3_init(0, -viewport_height, 0);
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
     cam.pixel_delta_u = vec3_divide(viewport_u, cam.img_width);

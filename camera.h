@@ -6,10 +6,10 @@
 #include "sphere.h"
 #include <stdio.h>
 
-#define VIEWPORT_HEIGHT 2.0
 #define FOCAL_LENGTH 1.0
 #define SAMPLES_PER_PIXEL 100
 #define MAX_DEPTH 50
+#define VFOV 90
 
 
 typedef struct camera camera_t;
@@ -24,6 +24,8 @@ struct camera {
     vec3_t pixel_delta_v; // offset of pixel below
     int samples_per_pixel; // number of random samples for each pixel
     int max_depth; // max number of ray bounces
+
+    double vfov; // vertical field of view
 };
 
 /* initialise camera instance */
