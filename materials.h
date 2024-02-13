@@ -14,6 +14,7 @@ typedef int (*scatter_function)(ray_t, hit_record_t*,
 struct material{
     vec3_t albedo;
     scatter_function scatter_func; // pointer to function used to scatter light
+    double fuzz; // only metal has fuzz
 };
 
 /* initialise a lambertian surface instance */
@@ -25,7 +26,7 @@ int lamb_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation,
                                 ray_t* scattered);
 
 /* initialise a metal surface instance */
-material_t metal_surface_init(vec3_t albedo);
+material_t metal_surface_init(vec3_t albedo, double fuzz);
 
 /* scatters light for a metal surface. Modifies the given hit record, 
    attenuation and scattered ray */

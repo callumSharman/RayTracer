@@ -6,11 +6,10 @@
 int main() {
     material_t ground_mat = lamb_surface_init(vec3_init(0.8,0.8,0.0));
     material_t center_mat = lamb_surface_init(vec3_init(0.7,0.3,0.3));
-    material_t left_mat = metal_surface_init(vec3_init(0.8,0.8,0.8));
-    material_t right_mat = metal_surface_init(vec3_init(0.8,0.6,0.2));
+    material_t left_mat = metal_surface_init(vec3_init(0.8,0.8,0.8), 0.6);
+    material_t right_mat = metal_surface_init(vec3_init(0.8,0.6,0.2), 0.2);
 
-    material_t close_mat = metal_surface_init(vec3_init(0.7,0.5,0.8));
-
+    material_t close_mat = metal_surface_init(vec3_init(0.7,0.5,0.8), 0.0);
 
 
     spheres_t sphere_list = spheres_init();
