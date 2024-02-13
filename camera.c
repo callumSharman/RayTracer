@@ -18,18 +18,29 @@ camera_t camera_init(double aspect_ratio, int img_width){
     cam.img_height = (img_width / (double) (aspect_ratio));
     cam.img_height = (cam.img_height < 1) ? 1 : cam.img_height; // must be at least 1 pixel tall
     
-    cam.center = vec3_init(0,0,0);
+    cam.lookfrom = LOOKFROM;
+    cam.lookat = LOOKAT;
+    cam.vup = VUP;
+
+    cam.center = cam.lookfrom;
+
+    // MAG MAY NOT BE THE CORRECT OPERATION HERE!! FIRST POINT TO LOOK IF THERE IS A BUG
+    double focal_length = vec3_mag(vec3_sub(cam.lookfrom,cam.lookat));
 
 
     cam.vfov = VFOV;
     double theta = degrees_to_radians(cam.vfov);
     double h = tan(theta/2);
-    double viewport_height = 2 * h * FOCAL_LENGTH;
+    double viewport_height = 2 * h * focal_length;
     double viewport_width = viewport_height * (cam.img_width/(double)cam.img_height);
 
+    cam.w = vec3_unit_vec(vec3_sub(cam.lookfrom,cam.lookat));
+    cam.u = vec3_unit_vec(vec3_cross(cam.vup, cam.w));
+    cam.v = vec3_cross(cam.w, cam.u);
+
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    vec3_t viewport_u = vec3_init(viewport_width, 0, 0);
-    vec3_t viewport_v = vec3_init(0, -viewport_height, 0);
+    vec3_t viewport_u = vec3_multi(cam.u, viewport_width);
+    vec3_t viewport_v = vec3_multi(vec3_multi(cam.v,-1), viewport_height);
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
     cam.pixel_delta_u = vec3_divide(viewport_u, cam.img_width);
@@ -41,9 +52,9 @@ camera_t camera_init(double aspect_ratio, int img_width){
                             - viewport_u/2
                             - viewport_v/2 */
     vec3_t viewport_upper_left = vec3_sub(vec3_sub(vec3_sub(cam.center, 
-                                        vec3_init(0,0,FOCAL_LENGTH)), 
-                                        vec3_divide(viewport_u, 2)),
-                                        vec3_divide(viewport_v, 2));
+                                    vec3_multi(cam.w, focal_length)), 
+                                    vec3_divide(viewport_u,2)),
+                                    vec3_divide(viewport_v,2));
 
     /* pixel00_loc = viewport_upper_left + 
                             (0.5 * (pixel_delta_u + pixel_delta_v)) */

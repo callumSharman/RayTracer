@@ -6,10 +6,13 @@
 #include "sphere.h"
 #include <stdio.h>
 
-#define FOCAL_LENGTH 1.0
 #define SAMPLES_PER_PIXEL 100
 #define MAX_DEPTH 50
-#define VFOV 90
+#define VFOV 20
+#define LOOKFROM vec3_init(-2,2,1)
+#define LOOKAT vec3_init(0,0,-1)
+#define VUP vec3_init(0,1,0)
+
 
 
 typedef struct camera camera_t;
@@ -26,6 +29,14 @@ struct camera {
     int max_depth; // max number of ray bounces
 
     double vfov; // vertical field of view
+    point3_t lookfrom; // point the camera is looking from
+    point3_t lookat; // point the camera is looking to
+    vec3_t vup; // camera relative up direction
+
+    /* camera frame basis vectors */
+    vec3_t u;
+    vec3_t v;
+    vec3_t w;
 };
 
 /* initialise camera instance */

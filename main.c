@@ -8,18 +8,28 @@
 
 int main() {
     material_t ground_mat = lamb_surface_init(vec3_init(0.8,0.8,0.0));
-    material_t left_mat = lamb_surface_init(vec3_init(0.0,0.0,1.0));
-    material_t right_mat = lamb_surface_init(vec3_init(1.0,0.0,0.0));
+    material_t center_mat = lamb_surface_init(vec3_init(0.1,0.1,0.5));
+    material_t left_mat = dielectric_surface_init(1.5);
+    material_t right_mat = metal_surface_init(vec3_init(0.8,0.6,0.2), 0.0);
 
     spheres_t sphere_list = spheres_init();
 
-    double R = cos(PI/4);
+    //double R = cos(PI/4);
 
-    //sphere_list.spheres[0] = sphere_init(vec3_init(0.0,-100.5,-1), 100, ground_mat);
-    sphere_list.spheres[0] = sphere_init(vec3_init(-R,0.0,-1), R, left_mat);
-    sphere_list.spheres[1] = sphere_init(vec3_init(R,0.0,-1), R, right_mat);
+    // GROUND SPHERE
+    sphere_list.spheres[0] = sphere_init(vec3_init(0,-100.5,-1), 100, ground_mat);
 
-    sphere_list.num_spheres = 2;
+    // CENTER SPHERE
+    sphere_list.spheres[1] = sphere_init(vec3_init(0.0,0.0,-1), 0.5, center_mat);
+
+    // LEFT SPHERE
+    sphere_list.spheres[2] = sphere_init(vec3_init(-1.0,0.0,-1), 0.5, left_mat);
+    sphere_list.spheres[4] = sphere_init(vec3_init(-1.0,0.0,-1), -0.4, left_mat);
+
+    // RIGHT SPHERE
+    sphere_list.spheres[3] = sphere_init(vec3_init(1.0,0.0,-1), 0.5, right_mat);
+
+    sphere_list.num_spheres = 5;
 
     FILE *img = fopen("image.ppm", "w");
 

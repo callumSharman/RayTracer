@@ -67,6 +67,14 @@ double vec3_dot(vec3_t v1, vec3_t v2){
     return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
+/* calculates and returns the cross product of the given vectors */
+vec3_t vec3_cross(vec3_t u, vec3_t v){
+    return(vec3_init((u.y * v.z) - (u.z * v.y),
+                     (u.z * v.x) - (u.x * v.z),
+                     (u.x * v.y) - (u.y * v.x)
+    ));
+}
+
 /* calculates the length squared */
 double vec3_length_squared(vec3_t v){
     return((v.x*v.x) + (v.y*v.y) + (v.z*v.z));

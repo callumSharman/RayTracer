@@ -47,6 +47,9 @@ vec3_t vec3_unit_vec(vec3_t v);
 /* calculates and returns the dot product of the given vectors */
 double vec3_dot(vec3_t v1, vec3_t v2);
 
+/* calculates and returns the cross product of the given vectors */
+vec3_t vec3_cross(vec3_t u, vec3_t v);
+
 /* calculates the length squared */
 double vec3_length_squared(vec3_t v);
 
