@@ -74,4 +74,7 @@ int near_zero(vec3_t v);
 /* returns the vector of a vector perfectly reflected off of a surface with normal n */
 vec3_t vec3_reflect(vec3_t v, vec3_t n);
 
+/* returns the vector of a vector refracted through a surface with normal n*/
+vec3_t vec3_refract(vec3_t v, vec3_t n, double etai_over_etat);
+
 #endif

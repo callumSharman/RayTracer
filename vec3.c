@@ -133,3 +133,14 @@ int near_zero(vec3_t v){
 vec3_t vec3_reflect(vec3_t v, vec3_t n){
     return(vec3_sub(v, vec3_multi(vec3_multi(n, 2), vec3_dot(v,n))));
 }
+
+/* returns the vector of a vector refracted through a surface with normal n*/
+vec3_t vec3_refract(vec3_t v, vec3_t n, double etai_over_etat){
+    double cos_theta = fmin(vec3_dot(vec3_multi(v,-1), n), 
+                            1.0);
+    vec3_t r_out_perp = vec3_multi(vec3_add(v, vec3_multi(n, cos_theta)), 
+                        etai_over_etat); 
+    vec3_t r_out_parallel = vec3_multi(n,
+                        (-1 * (sqrt(fabs(1.0 - vec3_length_squared(r_out_perp))))));
+    return(vec3_add(r_out_perp, r_out_parallel));
+}
