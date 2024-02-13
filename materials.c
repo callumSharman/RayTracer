@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <math.h>
 #include "materials.h"
 #include "vec3.h"
 #include "ray.h"
 #include "sphere.h"
+#include "utils.h"
 
 /* initialise a lambertian surface instance */
 material_t lamb_surface_init(vec3_t albedo){
@@ -74,12 +76,29 @@ int dielectric_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation,
     double refraction_ratio = hr->front_face ? (1.0/hr->material.ir) : hr->material.ir;
 
     vec3_t unit_dir = vec3_unit_vec(r.dir);
-    vec3_t refracted = vec3_refract(unit_dir, hr->normal, refraction_ratio);
+    double cos_theta = fmin(vec3_dot(vec3_multi(unit_dir,-1), hr->normal), 1.0);
+    double sin_theta = sqrt(1.0 - (cos_theta*cos_theta));
+
+    int cannot_refract = (refraction_ratio * sin_theta) > 1.0;
+    vec3_t direction;
+
+    if(cannot_refract || reflectance(cos_theta, refraction_ratio) > rand_double()){
+        direction = vec3_reflect(unit_dir, hr->normal);
+    } else {
+        direction = vec3_refract(unit_dir, hr->normal, refraction_ratio);
+    }
 
     scattered->orig = hr->p;
-    scattered->dir = refracted;
+    scattered->dir = direction;
 
     return 1;
+}
+
+/* uses schlick approximation for reflectance */
+double reflectance(double cosine, double ref_idx){
+    double r0 = (1-ref_idx)/(1+ref_idx);
+    r0 = r0*r0;
+    return (r0 + (1-r0)*pow((1-cosine), 5));
 }
 
 /* copies the information from mat2 to mat1 */

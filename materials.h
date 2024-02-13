@@ -12,7 +12,7 @@ typedef int (*scatter_function)(ray_t, hit_record_t*,
                 vec3_t*, ray_t*);
 
 struct material{
-    vec3_t albedo; // only lamb and metal have this
+    vec3_t albedo; // only lamb and metal can change this
     scatter_function scatter_func; // pointer to function used to scatter light
     double fuzz; // only metal has fuzz
     double ir; // index of refraction, only dielectric has refraction
@@ -41,6 +41,9 @@ material_t dielectric_surface_init(double ir);
    attenuation and scattered ray */
 int dielectric_scatter(ray_t r, hit_record_t* hr, vec3_t* attenuation, 
                                 ray_t* scattered);
+
+/* uses schlick approximation for reflectance */
+double reflectance(double cosine, double ref_idx);
 
 /* copies the information from mat2 to mat1 */
 void copy_material(material_t* mat1, material_t* mat2);
