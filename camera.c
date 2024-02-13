@@ -12,6 +12,8 @@
 camera_t camera_init(double aspect_ratio, int img_width){
     camera_t cam;
 
+    cam.defocus_angle = DEFOCUS_ANGLE;
+    cam.focus_dist = FOCUS_DIST;
 
     cam.aspect_ratio = aspect_ratio;
     cam.img_width = img_width;
@@ -24,14 +26,10 @@ camera_t camera_init(double aspect_ratio, int img_width){
 
     cam.center = cam.lookfrom;
 
-    // MAG MAY NOT BE THE CORRECT OPERATION HERE!! FIRST POINT TO LOOK IF THERE IS A BUG
-    double focal_length = vec3_mag(vec3_sub(cam.lookfrom,cam.lookat));
-
-
     cam.vfov = VFOV;
     double theta = degrees_to_radians(cam.vfov);
     double h = tan(theta/2);
-    double viewport_height = 2 * h * focal_length;
+    double viewport_height = 2 * h * cam.focus_dist;
     double viewport_width = viewport_height * (cam.img_width/(double)cam.img_height);
 
     cam.w = vec3_unit_vec(vec3_sub(cam.lookfrom,cam.lookat));
@@ -52,7 +50,7 @@ camera_t camera_init(double aspect_ratio, int img_width){
                             - viewport_u/2
                             - viewport_v/2 */
     vec3_t viewport_upper_left = vec3_sub(vec3_sub(vec3_sub(cam.center, 
-                                    vec3_multi(cam.w, focal_length)), 
+                                    vec3_multi(cam.w, cam.focus_dist)), 
                                     vec3_divide(viewport_u,2)),
                                     vec3_divide(viewport_v,2));
 
@@ -64,6 +62,10 @@ camera_t camera_init(double aspect_ratio, int img_width){
 
     cam.samples_per_pixel = SAMPLES_PER_PIXEL;
     cam.max_depth = MAX_DEPTH;
+
+    double defocus_radius = cam.focus_dist * tan(degrees_to_radians(cam.defocus_angle/2));
+    cam.defocus_disk_u = vec3_multi(cam.u, defocus_radius);
+    cam.defocus_disk_v = vec3_multi(cam.v,defocus_radius);
                                 
     return cam;
 }
@@ -141,14 +143,15 @@ colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth){
     return blended_value;
 }
 
-/* get a randomly sampled camera ray for the pixel at (i,j) */
+/* get a randomly sampled camera ray for the pixel at (i,j), 
+   originating from the camera defocus disk */
 ray_t get_ray(int i, int j, camera_t cam){
     vec3_t pixel_center = vec3_add(cam.pixel00_loc, 
                           vec3_add((vec3_multi(cam.pixel_delta_u, i)), 
                                    (vec3_multi(cam.pixel_delta_v, j))));
     vec3_t pixel_sample = vec3_add(pixel_center, pixel_sample_square(cam));
 
-    vec3_t ray_origin = cam.center;
+    vec3_t ray_origin = (cam.defocus_angle <= 0) ? cam.center : defocus_disk_sample(cam);
     vec3_t ray_dir = vec3_sub(pixel_sample, ray_origin);
     return ray_init(ray_origin, ray_dir);
 }
@@ -160,4 +163,12 @@ vec3_t pixel_sample_square(camera_t cam){
     return(vec3_add((vec3_multi(cam.pixel_delta_u, px)), 
                     (vec3_multi(cam.pixel_delta_v, py))));
     
+}
+
+/* returns a random point in the camera defocus disk */
+point3_t defocus_disk_sample(camera_t cam){
+    point3_t p = vec3_rand_in_unit_disk();
+    return(vec3_add(vec3_add(cam.center, 
+                    vec3_multi(cam.defocus_disk_u, p.x)),
+                    vec3_multi(cam.defocus_disk_v, p.y)));
 }

@@ -152,3 +152,13 @@ vec3_t vec3_refract(vec3_t v, vec3_t n, double etai_over_etat){
                         (-1 * (sqrt(fabs(1.0 - vec3_length_squared(r_out_perp))))));
     return(vec3_add(r_out_perp, r_out_parallel));
 }
+
+/* generates a random vector from the unit disk */
+vec3_t vec3_rand_in_unit_disk(){
+    while(1){
+        point3_t p = vec3_init(rand_double_min_max(-1,1), rand_double_min_max(-1,1), 0);
+        if(vec3_length_squared(p) < 1){
+            return p;
+        }
+    }
+}

@@ -80,4 +80,7 @@ vec3_t vec3_reflect(vec3_t v, vec3_t n);
 /* returns the vector of a vector refracted through a surface with normal n*/
 vec3_t vec3_refract(vec3_t v, vec3_t n, double etai_over_etat);
 
+/* generates a random vector from the unit disk */
+vec3_t vec3_rand_in_unit_disk();
+
 #endif

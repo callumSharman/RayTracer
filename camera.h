@@ -12,6 +12,8 @@
 #define LOOKFROM vec3_init(-2,2,1)
 #define LOOKAT vec3_init(0,0,-1)
 #define VUP vec3_init(0,1,0)
+#define DEFOCUS_ANGLE 10
+#define FOCUS_DIST 3.4
 
 
 
@@ -37,6 +39,11 @@ struct camera {
     vec3_t u;
     vec3_t v;
     vec3_t w;
+
+    double defocus_angle; // variation angle of rays through each pixel
+    double focus_dist; // distance from camera lookfrom point to plane of perfect focus
+    vec3_t defocus_disk_u; // defocus disk horizontal radius
+    vec3_t defocus_disk_v; // defocus disk vertical radius
 };
 
 /* initialise camera instance */
@@ -49,10 +56,14 @@ void render(FILE* img, camera_t camera, spheres_t sphere_list);
    depth is how many bounces left you wish to go */
 colour_t ray_colour(ray_t ray, spheres_t sphere_list, int depth);
 
-/* get a randomly sampled camera ray for the pixel at (i,j) */
+/* get a randomly sampled camera ray for the pixel at (i,j), 
+   originating from the camera defocus disk */
 ray_t get_ray(int i, int j, camera_t cam);
 
 /* returns a random point in the square surrounding a pixel at the origin */
 vec3_t pixel_sample_square(camera_t cam);
+
+/* returns a random point in the camera defocus disk */
+point3_t defocus_disk_sample(camera_t cam);
 
 #endif
