@@ -10,22 +10,25 @@ Use the command `make clean` to delete all executeables, object files and the im
 ### Camera/Image manipulation
 (Make sure when changing camera constants to execute `make clean` before `make run`)
 
-The following is a list of modifiable constants within the file *camera.h*
+The following is a list of modifiable constants within the file *camera.h*:
 
-* Samples per pixel
-* Max depth
-* Vfov
-* Look from
-* Look at
-* Vup
-* Defocus angle
-* Focus distance
+* SAMPLES_PER_PIXEL - More samples produces more accurate image. Added for antialiasing.
+* MAX_DEPTH - Higher depth produces more accurate image. Indicates maximum number of ray bounces in a scene .
+* VFOV - Field of view.
+* LOOK_FROM - Point which the camera looks from.
+* LOOK_AT - Point which the camera looks at.
+* FOCUS_DIST - Distance at which the camera is perfectly focused.
 
 Within *main.c* the image width can be modified.
 
-
-
 ### Adding objects
+Within *main.c* objects can be added to *sphere_list* to appear in the scene.
+
+The following is a list of addable object types and how to include them:
+
+* Diffuse sphere
+* Metal sphere
+* Glass sphere
 
 ## Examples
 <p align="center">
@@ -58,3 +61,5 @@ the material struct has values in there that arent relevant to all materials
 
 i need to learn about headers, how to prevent circular dependencies needing
 forward declarations
+
+DONT FORGET ATTRIBUTION
