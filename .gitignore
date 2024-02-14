@@ -59,4 +59,4 @@ dkms.conf
 !*.ppm
 image.ppm
 !Makefile
-!README
+!README.md
