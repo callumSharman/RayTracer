@@ -53,12 +53,17 @@ N.B. remember to set the number of spheres you've added or it will cause issues.
   <div align="center">
     Figure _: Left: fully reflective. Right: varied levels of "fuzz".
     <p></p>
-</div>
+  </div>
 </p>
 
 ### Glass surfaces
 <p align="center">
+  <img src="images/pngs/glass_final.png" width="400">
   <img src="images/pngs/camera_angle_1.png" width="400">
+  <div align="center">
+    Figure _: Left: both solid and hollow glass spheres. Right: better view on hollow sphere.
+    <p></p>
+  </div>
 </p>
 
 
