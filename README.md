@@ -1,4 +1,4 @@
-# RAY TRACER
+# Ray Tracer
 what is it
 
 ## Operation
@@ -24,42 +24,50 @@ Within *main.c* the image width can be modified.
 ### Adding objects
 Within *main.c* objects can be added to *sphere_list* to appear in the scene.
 
-The following is a list of addable object types and how to include them:
+Each object requires a material to create. These can be assigned to the type `material_t` and initialised using `lamb_surface_init(vec3_t albedo)`, `metal_surface_init(vec3_t albedo, double fuzz)` or `dielectric_surface_init(double ir)`.
 
-* Diffuse sphere
-* Metal sphere
-* Glass sphere
+The following is a list of addable object types:
+
+* Diffuse sphere - A matte sphere, utilises the lamb_surface material type.
+* Metal sphere - A reflective sphere, whose "fuzz" can be modified, utilises the metal_surface material type.
+* Glass sphere - A reflective sphere that refracts what it sees upside down the desired amount, utilises the dielectric_surface material type.
+
+To add a sphere to `sphere_list` use `sphere_list.spheres[list_index] = sphere`
+
+N.B. remember to set the number of spheres you've added or it will cause issues.
 
 ## Examples
 <p align="center">
   <img src="images/pngs/final_1_highres.png" width="400">
 </p>
 
-### diffuse surfaces
+### Diffuse surfaces
 <p align="center">
-  <img src="images/pngs/diffuse_4_lam.png" width="400">
-  <img src="images/pngs/diffuse_5_lam_colour.png" width="400">
+  
 </p>
 
-### metal surfaces
+### Metal surfaces
 <p align="center">
   <img src="images/pngs/metal_2.png" width="400">
   <img src="images/pngs/metal_3_fuzzed.png" width="400">
+  <div align="center">
+    Figure _: Left: fully reflective. Right: varied levels of "fuzz".
+    <p></p>
+</div>
 </p>
 
-### glass surfaces
+### Glass surfaces
 <p align="center">
   <img src="images/pngs/camera_angle_1.png" width="400">
 </p>
 
 
 ## Retrospective
-what did i learn here
+Upon reflection it is evident that C was not the right language for this, or else there might have been a better approach using this language. An object oriented approach would have been much cleaner and more consise as rays, vectors and so on work better as objects. Furthermore, I would've benefitted greatly from object oriented polymorphism when it came to the materials, as the struct had redundant variables for some materials. Also, manipulating vectors using my approach in C was very cumbersome.
 
-not the right language for this. for example problems with materials
-the material struct has values in there that arent relevant to all materials
+Along with this I ran into an issue multiple times that I was unprepared for and unfamiliar with, circular dependency with file headers which required forward declaration and some trickery to get around. I feel this was a bad approach and in the future should carefully evaluate design beforehand to prevent this.
 
-i need to learn about headers, how to prevent circular dependencies needing
-forward declarations
+It may be worth, later on, creating an easier way to facilitate adding and remove objects from the world. Maybe as a future project I can add this to an app, or to a portfolio further on. Additionally, later on, I may wish to create this to also accept other forms, such as squares or other shapes.
 
-DONT FORGET ATTRIBUTION
+## Notes
+Thankyou Peter Shirley, Trevor David Black and Steve Hollasch for your excellent tutorial in the book *Ray Tracing in One Weekend*.
