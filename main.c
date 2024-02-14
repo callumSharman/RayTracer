@@ -63,6 +63,7 @@ int main() {
 
     double aspect_ratio = 16.0 / 9.0;
     int image_width = 900;
+    
     camera_t camera = camera_init(aspect_ratio, image_width);
 
     render(img, camera, sphere_list);
