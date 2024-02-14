@@ -8,12 +8,12 @@
 
 #define SAMPLES_PER_PIXEL 100
 #define MAX_DEPTH 50
-#define VFOV 20
-#define LOOKFROM vec3_init(13,2,3)
-#define LOOKAT vec3_init(0,0,0)
+#define VFOV 30
+#define LOOKFROM vec3_init(7,1.5,0)
+#define LOOKAT vec3_init(0,1,0)
 #define VUP vec3_init(0,1,0)
 #define DEFOCUS_ANGLE 0.6
-#define FOCUS_DIST 10.0
+#define FOCUS_DIST 7.2
 
 
 
