@@ -19,7 +19,7 @@ struct sphere {
 };
 
 struct spheres { // currently holds a max of 10 spheres for simplification
-    sphere_t spheres[10];
+    sphere_t spheres[1000];
     int num_spheres;
 };
 
