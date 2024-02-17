@@ -10,7 +10,7 @@
 int main() {
     spheres_t sphere_list = spheres_init();
 
-    material_t ground_mat = lamb_surface_init(vec3_init(0.5,0.8,0.1));
+    material_t ground_mat = lamb_surface_init(vec3_init(0.5,0.9,0.1));
     sphere_list.spheres[0] = sphere_init(vec3_init(0,-1000,0), 1000, ground_mat);
 
     int list_idx = 1;
@@ -68,7 +68,7 @@ int main() {
     FILE *img = fopen("image.ppm", "w");
 
     double aspect_ratio = 16.0 / 9.0;
-    int image_width = 400;
+    int image_width = 900;
     
     camera_t camera = camera_init(aspect_ratio, image_width);
 

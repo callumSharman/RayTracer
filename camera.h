@@ -6,7 +6,7 @@
 #include "sphere.h"
 #include <stdio.h>
 
-#define SAMPLES_PER_PIXEL 100
+#define SAMPLES_PER_PIXEL 200
 #define MAX_DEPTH 50
 #define VFOV 30
 #define LOOKFROM vec3_init(7,1.5,0)
