@@ -39,9 +39,9 @@ N.B. remember to set the number of spheres you've added or it will cause issues.
 ## Examples
 <p align="center">
   <img src="images/pngs/final_1_highres.png" width="400">
+  <img src="images/pngs/glass_final_highres.png" width="400">
   <img src="images/pngs/metal_2.png" width="400">
   <img src="images/pngs/metal_3_fuzzed.png" width="400">
-  <img src="images/pngs/glass_final_highres.png" width="400">
   <img src="images/pngs/camera_angle_1.png" width="400">
 </p>
 
