@@ -69,7 +69,7 @@ int main() {
     FILE *img = fopen("image.ppm", "w");
 
     double aspect_ratio = 16.0 / 9.0;
-    int image_width = 900;
+    int image_width = 200;
     
     camera_t camera = camera_init(aspect_ratio, image_width);
 

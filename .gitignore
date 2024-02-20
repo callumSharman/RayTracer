@@ -59,8 +59,8 @@ dkms.conf
 !/src
 !*.ppm
 !*.png
-!/img/pngs
-!/img/ppms
+!/img/png
+!/img/ppm
 image.ppm
 !Makefile
 !README.md

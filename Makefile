@@ -1,6 +1,6 @@
 CFLAGS = -Wall -g -lm
 CC= gcc
-OJBS = main.o utils.o vec3.o ray.o sphere.o interval.o camera.o materials.o
+OJBS = src/main.o src/utils.o src/vec3.o src/ray.o src/sphere.o src/interval.o src/camera.o src/materials.o
 
 
 imgGenerator: $(OJBS)
@@ -14,6 +14,6 @@ run:
 	./imgGenerator
 
 clean:
-	rm -f *.o 
+	rm -f src/*.o 
 	rm imgGenerator
 	rm image.ppm
