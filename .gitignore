@@ -56,6 +56,7 @@ dkms.conf
 !*.c
 !*.h
 !/img
+!/src
 !*.ppm
 !*.png
 !/img/pngs
