@@ -55,11 +55,11 @@ dkms.conf
 *
 !*.c
 !*.h
-!/images
+!/img
 !*.ppm
 !*.png
-!/images/pngs
-!/images/ppms
+!/img/pngs
+!/img/ppms
 image.ppm
 !Makefile
 !README.md
