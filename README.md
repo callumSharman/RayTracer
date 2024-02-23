@@ -3,9 +3,9 @@ This is a basic ray tracing engine written in C, using indirect lighting and sim
 
 ## Operation
 ### Execution
-Use the command `make run` to complie all necessary files and execute. Outputs the result into image.ppm in the root folder.
+Use the command `make run` to compile all necessary files and execute. Outputs the result into *image.ppm* in the root folder.
 
-Use the command `make clean` to delete all executeables, object files and the image named "image.ppm" in the root from previous execution.
+Use the command `make clean` to delete all executables, object files and the image named *image.ppm* in the root from previous execution.
 
 ### Camera/Image manipulation
 (Make sure when changing camera constants to execute `make clean` before `make run`)
@@ -28,9 +28,9 @@ Each object requires a material to create. These can be assigned to the type `ma
 
 The following is a list of addable object types:
 
-* Diffuse sphere - A matte sphere, utilises the lamb_surface material type.
-* Metal sphere - A reflective sphere, whose "fuzz" can be modified, utilises the metal_surface material type.
-* Glass sphere - A reflective sphere that refracts what it sees upside down the desired amount, utilises the dielectric_surface material type.
+* Diffuse sphere - A matte sphere, utilises the *lamb_surface* material type.
+* Metal sphere - A reflective sphere, whose "fuzz" can be modified, utilises the *metal_surface* material type.
+* Glass sphere - A reflective sphere that refracts what it sees upside down the desired amount, utilises the *dielectric_surface* material type.
 
 To add a sphere to `sphere_list` use `sphere_list.spheres[list_index] = sphere`
 
@@ -44,7 +44,7 @@ N.B. remember to set the number of spheres you've added or it will cause issues.
 </p>
 
 ## Retrospective
-Upon reflection it is evident that C was not the right language for this, or else there might have been a better approach using this language. An object oriented approach would have been much cleaner and more consise as rays, vectors and so on work better as objects. Furthermore, I would've benefitted greatly from object oriented polymorphism when it came to the materials, as the material struct has redundant variables for some materials. Also, manipulating vectors using my approach in C was very cumbersome.
+Upon reflection it is evident that C was not the right language for this, or else there might have been a better approach using this language. An object oriented approach would have been much cleaner and more concise as rays, vectors and so on work better as objects. Furthermore, I would've benefitted greatly from object oriented polymorphism when it came to the materials, as the material struct has redundant variables for some materials. Also, manipulating vectors using my approach in C was very cumbersome.
 
 Along with this I ran into an issue multiple times that I was unprepared for and unfamiliar with, circular dependency with file headers which required forward declaration and some trickery to get around. I feel this was a bad approach and in the future should carefully evaluate design beforehand to prevent this.
 
